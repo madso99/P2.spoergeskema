@@ -10,17 +10,17 @@ Programmet er udarbejde med Model View Controller (MVC) arkitekturen. Ved instal
 
 > Brug _npm test_ for at starte serveren.
 
-#### bin mappen
+### bin mappen
 
 Bin mappen indeholder en fil ved navn _www_. Denne fil fungerer som startpunktet for en Node.js Express-server. Den sørger for at hente den tilhørende Express-applikation, definere en serverport, og starte en HTTP-server, der kan håndtere indgående forespørgsler. Derudover håndterer den fejl, der kan opstå under opstart, såsom en allerede optaget port eller manglende tilladelser. Den bruger også debug-modulet til at logge statusoplysninger.
 
-##### Hvilke funktioner kan tilføjes?
+#### Hvilke funktioner kan tilføjes?
 
 - HTTPS-understøttelse: Hvis du vil køre serveren sikkert, kan du bruge https.createServer med et SSL-certifikat.
 - Miljøvariabel-håndtering: Brug f.eks. dotenv til at hente konfigurationer fra en .env-fil.
 - Graceful Shutdown: Tilføj en funktion, der lukker serveren pænt ved SIGINT eller SIGTERM.
 
-#### controllers
+### controllers
 
 controllers fungerer som bindeled mellem brugerens forespørgsler, datamodeller og API-respons. De håndterer logikken bag forskellige funktioner og kommunikerer med databasen for at hente, opdatere eller slette data.
 
@@ -32,11 +32,11 @@ Disse controllers samarbejder med models/ (databasen), routes/ (API-endpoints) o
 
 Controllerne bruges til at behandle forespørgsler, validere data og returnere svar, mens de kan udvides med fejlhåndtering, autentificering og optimering af databaseforespørgsler for bedre stabilitet og ydeevne.
 
-#### db, data og public
+### db, data og public
 
 Public indeholder stylingen for hele projectet. Db er hvor du vil kunne finde vores database. data indeholder vores som sagt data så som xml filer med spørgsmål.
 
-#### routes
+### routes
 
 routes/ indeholder applikationens routing-logik og definerer, hvordan HTTP-anmodninger håndteres og sendes videre til de relevante controllers. Den sikrer, at hver endpoint har en klar funktion og kobler brugerens forespørgsler til den rigtige behandling i controllers.
 
@@ -48,7 +48,7 @@ survey.js: Ruter relateret til spørgeskemafunktionalitet, der sender forespørg
 
 Disse ruter sikrer, at brugerforespørgsler sendes korrekt til controllerne, som derefter håndterer logikken og kommunikerer med databasen. Systemet kan udvides med flere ruter for at understøtte nye funktioner eller API-endpoints, alt efter behov.
 
-#### views
+### views
 
 Mappen views/ indeholder applikationens frontend-skabeloner, som er skrevet i Pug.
 
@@ -61,7 +61,7 @@ register.pug: En registreringsformular, hvor nye brugere kan oprette en konto me
 error.pug: En fejlside, der viser fejlmeddelelser og fejlkoder, hvis noget går galt i applikationen.
 Disse skabeloner forbindes med routes, hvor serveren render dem og sender dem til klienten, så brugeren får en dynamisk oplevelse. Systemet kan udvides med flere views for at understøtte nye sider eller funktioner.
 
-#### app.js
+### app.js
 
 app.js er hovedfilen i applikationen, der initialiserer Express-serveren, opsætter middleware, definerer routes, og håndterer fejl.
 
