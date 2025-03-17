@@ -12,6 +12,9 @@ const connect = async function () {
 };
 
 module.exports = {
+	/*
+	SKABELON:
+
 	getAllContinents: async function (req, res, next) {
 		try {
 			let db = await connect();
@@ -23,41 +26,5 @@ module.exports = {
 			res.status(400).json(err.message);
 		}
 	},
-
-	getAllCountries: async function (req, res, next) {
-		try {
-			let db = await connect();
-			let sql = 'select * from country';
-			let query = db.prepare(sql);
-			let rows = await query.all();
-			return rows;
-		} catch (err) {
-			res.status(400).json(err.message);
-		}
-	},
-
-	getAllCities: async function (req, res, next) {
-		try {
-			let db = await connect();
-			let sql = 'select * from city';
-			let query = db.prepare(sql);
-			let rows = await query.all();
-			return rows;
-		} catch (err) {
-			res.status(400).json(err.message);
-		}
-	},
-
-	getAllLanguages: async function (req, res, next) {
-		try {
-			let db = await connect();
-			let sql = 'select * from countrylanguage';
-			let query = db.prepare(sql);
-			let rows = await query.all();
-			return rows;
-		} catch (err) {
-			res.status(400).json(err.message);
-		}
-	}
-
+*/
 }

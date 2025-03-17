@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const con = require('../controllers/controllers');
+const con = require('../controllers/controller_admin');
 
 /* GET user register ie send form */
 router.get('/register', function(req, res, next) {
