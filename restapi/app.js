@@ -9,7 +9,7 @@ const logger = require('morgan');
 const path = require('path');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 
 app.use('/', indexRouter);
-app.use('/admin', usersRouter); // HUSK AT VI HAR ÆNDRET DETTE FRA /users til /admin og at vi måske mangler at ændre det et andet sted i projektet.
+app.use('/admin', adminRouter); // HUSK AT VI HAR ÆNDRET DETTE FRA /users til /admin og at vi måske mangler at ændre det et andet sted i projektet.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
