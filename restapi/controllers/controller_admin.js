@@ -50,6 +50,7 @@ module.exports = {
     }
   },
   */
+ /*
   handleLogin: async (req, res, next) => {
     try {
       console.log('Handle login started');
@@ -71,6 +72,50 @@ module.exports = {
     } catch (err) {
       console.log('Error occurred: ', err.message);
       
+      // Tjek om headers er blevet sendt
+      if (!res.headersSent) {
+        console.log('Sending error response');
+        return res.status(401).json({ message: err.message });
+      } else {
+        console.log('Response already sent, skipping error handling');
+      }
+    }
+  },
+  */
+
+  handleLogin: async (req, res, next) => {
+    try {
+      console.log('Handle login started');
+  
+      // Hvis brugeren allerede har en token i headeren og den er valid, spring over tokengenereringen
+      let existingToken = req.headers.authorization && req.headers.authorization.split(' ')[1];
+      if (existingToken) {
+        try {
+          const decoded = await jwt.verify(existingToken, process.env.SECRET);
+          console.log('User already has a valid token');
+          return res.json({ token: existingToken, msg: 'Already logged in' });
+        } catch (err) {
+          console.log('Existing token is invalid or expired, generating a new token');
+        }
+      }
+      
+      // Først validerer vi brugeren
+      await model.getUser(req, res, next);
+      
+      // Dernæst validere passwordet
+      await ctrlSecurity.validatePassword(req, res, next); // Hvis passwordet er forkert, stopper vi her.
+  
+      // Generer tokenet
+      await ctrlSecurity.generateToken(req, res, next); // Tokenet gemmes i res.locals
+  
+      // Send succesrespons
+      if (!res.headersSent) {
+        console.log('Sending response: Success');
+        return res.json({ token: res.locals.token, msg: 'Login successful' });
+      }
+    } catch (err) {
+      console.log('Error occurred: ', err.message);
+  
       // Tjek om headers er blevet sendt
       if (!res.headersSent) {
         console.log('Sending error response');

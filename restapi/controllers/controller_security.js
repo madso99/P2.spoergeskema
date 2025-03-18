@@ -40,7 +40,7 @@ module.exports = {
         profile: res.locals.user.profile,
       };
       res.locals.token = await jwt.sign(payload, process.env.SECRET, {
-        expiresIn: "1h",
+        expiresIn: "1m",
       });
       console.log("✅ generateToken middleware blev udført!");
       console.log("Genererede token", res.locals.token);
