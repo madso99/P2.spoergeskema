@@ -8,7 +8,7 @@ Denne README bruges som en referance til hvordan du kan navigere rundt i program
 
 Programmet er udarbejde med Model View Controller (MVC) arkitekturen. Ved installation af repository husk at bruge _npm install_ for at installere alle npm pakker der er installeret i projektet. Hertil er det vigtig at du opretter din .env fil gemmer din node_moduls i den den samt Secrets mm.
 
-> Brug _npm test_ for at starte serveren.
+> Brug _npm test_ for at starte serveren og husk at start den på den mappe hvor app.js ligger.
 
 ### bin mappen
 
