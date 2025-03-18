@@ -7,6 +7,7 @@ module.exports = {
   hashPassword: async function(req, res, next) {
     try {
       res.locals.hash = await bcrypt.hash(req.body.password, parseInt(process.env.ROUNDS));
+      console.log('✅ hashPassword middleware blev udført!');
       next();
     } catch (err) {
       return res.status(500).json({ message: 'Error hashing password' });
@@ -18,6 +19,7 @@ module.exports = {
     try {
       let match = await bcrypt.compare(req.body.password, res.locals.user.password);
       if (!match) throw new Error('Invalid credentials');
+      console.log('✅ validatePassword middleware blev udført!');
       next();
     } catch (err) {
       return res.status(401).json({ message: err.message });
@@ -29,7 +31,8 @@ module.exports = {
     try {
       const payload = { email: res.locals.user.email, profile: res.locals.user.profile };
       res.locals.token = await jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
-      next();
+      console.log('✅ generateToken middleware blev udført!');
+      //next();
     } catch (err) {
       return res.status(500).json({ message: 'Error generating token' });
     }
@@ -44,8 +47,13 @@ module.exports = {
       let decoded = await jwt.verify(token, process.env.SECRET);
       if (!decoded) throw new Error('Failed to authenticate token');
 
+      if (Date.now() >= decoded.exp * 1000) {
+        throw new Error('Token has expired');
+      }
+
       res.locals.authorized = true;
       res.locals.profile = decoded.profile;
+      console.log('✅ validateToken middleware blev udført!');
       next();
     } catch (err) {
       res.status(401).json({ message: err.message });

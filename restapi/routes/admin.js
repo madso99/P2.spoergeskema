@@ -27,10 +27,10 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', ctrlAdmin.handleLogin, function(req, res, next) {
-	res.render('index', {
+	/*res.render('admin_page', {
 		token: res.locals.token,
 		msg: 'Login successful'
-	});
+	});*/
 });
 
 module.exports = router;
