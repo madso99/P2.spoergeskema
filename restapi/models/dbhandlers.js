@@ -12,19 +12,35 @@ const connect = async function () {
 };
 
 module.exports = {
-	/*
-	SKABELON:
 
-	getAllContinents: async function (req, res, next) {
+	insertUser: async function (req, res, next) {
 		try {
 			let db = await connect();
-			let sql = 'select * from continent';
+			console.log("✅ Databaseforbindelse oprettet");
+
+			let sql = 'insert into user (email, password, bio) values(?, ?, ?)';
 			let query = db.prepare(sql);
-			let rows = await query.all();
-			return rows;
+			console.log("📨 Data modtaget:", req.body.email, res.locals.hash, req.body.bio);
+
+			let row = await query.run(req.body.email, res.locals.hash, req.body.bio);
+			console.log("✅ Bruger gemt i databasen:", row);
+
+			res.locals.user = row
 		} catch (err) {
+			console.error("❌ Fejl i insertUser:", err.message);
 			res.status(400).json(err.message);
 		}
 	},
-*/
+
+	getUser: async function (req, res, next) {
+		try {
+			let db = await connect();
+			let sql = 'select * from user where email = ?';
+			let query = db.prepare(sql);
+			let row = await query.get(req.body.email);
+			res.locals.user = row;
+		} catch (err) {
+			res.status(400).json(err.message);
+		}
+	}
 }
