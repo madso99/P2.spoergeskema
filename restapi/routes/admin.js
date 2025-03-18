@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const ctrlAdmin = require('../controllers/controller_admin');
+const controllerFileHandler = require('../controllers/controller_filehandler');
+
+const TITLE = 'Admin';
 
 /* GET user register ie send form */
 router.get('/register', function(req, res, next) {
@@ -27,10 +30,16 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', ctrlAdmin.handleLogin, function(req, res, next) {
+	res.locals.email = req.body.email;
 	res.render('admin_page', {
+		title: res.locals.email,
 		token: res.locals.token,
 		msg: 'Login successful'
 	});
 });
+
+router.post('/upload', controllerFileHandler.handleFileUpload);
+
+router.get('/download/', controllerFileHandler.downloadFile);
 
 module.exports = router;

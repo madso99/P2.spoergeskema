@@ -7,6 +7,7 @@ const express = require("express");
 const helmet = require("helmet");
 const logger = require("morgan");
 const path = require("path");
+const fileUpload = require('express-fileupload');
 
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
+app.use(fileUpload());
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter); // HUSK AT VI HAR ÆNDRET DETTE FRA /users til /admin og at vi måske mangler at ændre det et andet sted i projektet.

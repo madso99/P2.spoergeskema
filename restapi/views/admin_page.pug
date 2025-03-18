@@ -2,4 +2,20 @@ extends layout
 
 block content
   h1= title
-  p 🎶Velkommen til admiiina, admina! admina! admina!... Arrrhaa!!!🎶 #{title}
+  p  Hej #{title} Velkommen til din admin side! Her kan du se mængden af bruger som har tilgået spørgeskemaet og mængden af besvarelserne. Du kan også uploude dine spørgeskemaer og downloade besvarelserne.
+
+  div
+    h3 Upload Section
+    br
+    form(action='/admin/upload', method='post', enctype='multipart/form-data')
+      | File to be uploaded: 
+      input(type='file', name='uploadFile', id='uploadFile', accept='.xml')
+      br
+      button(type='submit') Upload
+    br
+
+  div
+    h3 Download Section
+    br
+    form(action='/admin/download/questions.xml', method='get')
+      button(type='submit') Download
