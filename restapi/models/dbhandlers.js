@@ -12,19 +12,16 @@ const connect = async function () {
 };
 
 module.exports = {
-	/*
-	SKABELON:
 
-	getAllContinents: async function (req, res, next) {
+	insertUser: async function (req, res, next) {
 		try {
 			let db = await connect();
-			let sql = 'select * from continent';
+			let sql = 'insert into user (email, password, bio) values(?, ?, ?)';
 			let query = db.prepare(sql);
-			let rows = await query.all();
-			return rows;
+			let row = await query.run(req.body.email, res.locals.hash, req.body.bio);
+			res.locals.user = row
 		} catch (err) {
 			res.status(400).json(err.message);
 		}
-	},
-*/
+	}
 }
