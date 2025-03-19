@@ -9,14 +9,4 @@ const ctrlSurvey = require("../controllers/controller_survey");
 // router endpoint to save the users answer
 router.post("/submit-response", ctrlSurvey.saveUserResponse);
 
-/*
-// Tilføj session middleware
-router.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-*/
 module.exports = router;
