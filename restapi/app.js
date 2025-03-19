@@ -1,5 +1,5 @@
+// require following EXTERNAL dependencies
 require("dotenv").config();
-
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const createError = require("http-errors");
@@ -7,19 +7,21 @@ const express = require("express");
 const helmet = require("helmet");
 const logger = require("morgan");
 const path = require("path");
+const session = require("express-session");
 const fileUpload = require('express-fileupload');
 
+const app = express();
+
+// set view engine to be Pug, in your application
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+
+// require following INTERNAL dependencies
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
 const surveyRouter = require("./routes/survey");
 
-const app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-
-// use following dependencies
+// use following dependencies, in your application
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
@@ -27,18 +29,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
 app.use(fileUpload());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "fallback-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-// route prefixes kan også kaldes base path
+// use the INTERNAL dependencies to set following route prefixes, in your application
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
 app.use("/survey", surveyRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
+// use this as a global Middleware to catch 404 and forward to next middleware, in your application
+app.use( (req, res, next) => {
   next(createError(404));
 });
 
-// error handler
+// THE END of the middleware-chaine and is also the error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
