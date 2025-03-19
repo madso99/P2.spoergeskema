@@ -1,10 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const fileUpload = require('express-fileupload');
 
 module.exports = {
 
-  // Middleware til filupload
+  // Middleware til filupload af XML filer til mappen /data/xml
   handleFileUpload: (req, res, next) => {
     console.log("Filmodtagelse: ", req.files); // Log det, der bliver sendt fra klienten
     
@@ -13,10 +12,11 @@ module.exports = {
 
         // Tjek om filtypen er XML
         const fileExtension = path.extname(uploadedFile.name).toLowerCase();
-    if (fileExtension !== '.xml') {
-      console.log("❌ Kun XML-filer er tilladt");
-      return res.status(400).send("❌ Kun XML-filer er tilladt");
-    }
+
+        if (fileExtension !== '.xml') {
+        console.log("❌ Kun XML-filer er tilladt");
+        return res.status(400).send("❌ Kun XML-filer er tilladt");
+        }
 
       const uploadPath = path.join(__dirname, '..', 'data', 'xml', uploadedFile.name);
   
@@ -33,23 +33,33 @@ module.exports = {
       res.status(400).send("❌ Ingen fil blev uploadet");
     }
   },
-  
-  // Middleware til fildownload
-  downloadFile: (req, res, next) => {
-    const fileName = req.params.fileName;
-    const filePath = path.join(__dirname, '..', 'data', 'json', fileName);
 
-    fs.stat(filePath, (err, stats) => {
-      if (err || !stats.isFile()) {
-        return res.status(404).send("❌ Filen blev ikke fundet!");
+  // Middleware til Liste over filer i /data/json
+  listFiles: (req, res) => {
+    const directoryPath = path.join(__dirname, '../data/json');
+
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        return res.status(500).json({ error: "❌ Kunne ikke læse mappen" });
       }
-
-      res.download(filePath, (err) => {
-        if (err) {
-          return res.status(500).send("❌ Fejl ved download af fil");
-        }
-        console.log(`✅ Filen ${fileName} er blevet downloadet`);
-      });
+      res.json(files); // Returnerer en liste af filer
+    });
+  },
+  
+  // Middleware til download af filer mappen /data/json
+  downloadFile: (req, res) => {
+    const fileName = req.params.fileName;
+    const filePath = path.join(__dirname, '../data/json', fileName);
+    
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send("❌ Filen blev ikke fundet!");
+    }
+    
+    res.download(filePath, fileName, (err) => {
+      if (err) {
+        return res.status(500).send("❌ Fejl ved download af fil");
+      }
+      console.log(`✅ Filen ${fileName} er blevet downloadet`);
     });
   }
 };

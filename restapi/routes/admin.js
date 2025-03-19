@@ -40,6 +40,8 @@ router.post('/login', ctrlAdmin.handleLogin, function(req, res, next) {
 
 router.post('/upload', controllerFileHandler.handleFileUpload);
 
-router.get('/download/', controllerFileHandler.downloadFile);
+// Route til at hente alle filer i /data/json
+router.get('/list-files', controllerFileHandler.listFiles);
+router.get('/download/:fileName', controllerFileHandler.downloadFile);
 
 module.exports = router;
