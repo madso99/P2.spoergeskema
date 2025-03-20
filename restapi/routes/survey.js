@@ -11,7 +11,7 @@ const surveyPages = require("../data/js/surveyContent");
 router.post("/submit-response", ctrlSurvey.saveUserResponse);
 
 // HTTP GET request
-// Route til de dynamiske testsider som blivrt indlæst via url paramtre
+// Route til de dynamiske testsider som bliver indlæst via url paramtre
 router.get("/:design", (req, res) => {
   const designKey = req.params.design;
 

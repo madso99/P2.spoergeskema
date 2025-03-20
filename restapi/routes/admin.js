@@ -15,14 +15,11 @@ router.post('/register', (req, res, next) => {
 	res.json({login: 'failed, please try again'});
 });
 
-// 💥 Kan være her at fejlen ligger i forhold til at vi bliver ved med at være på endpoint /login når admin er logget ind og ikke på /dashboard.
 router.post('/login', ctrlAdmin.handleLogin, (req, res, next) => {
-	res.locals.email = req.body.email;
-	res.render('admin_page', {
-		title: res.locals.email,
-		token: res.locals.token,
-		msg: 'Login successful'
-	});
+	req.session.email = req.body.email;
+	req.session.token = res.locals.token;
+  
+	res.redirect('/admin/dashboard');
 });
 
 router.post('/upload', controllerFileHandler.handleFileUpload);
@@ -39,6 +36,18 @@ router.get('/login', (req, res, next) => {
   res.render('login', {
 	  title: 'Please Login'
   });
+});
+
+router.get('/dashboard', (req, res, next) => {
+	if (!req.session.email) {
+		return res.redirect('/admin/login');
+	}
+
+	res.render('admin_dashboard', {
+		title: req.session.email,
+		token: req.session.token,
+		msg: 'Login successful'
+	});
 });
 
 router.get('/list-files', controllerFileHandler.listFiles);
