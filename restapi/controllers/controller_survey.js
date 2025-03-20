@@ -1,5 +1,8 @@
+// require following EXTERNAL dependencies
 const fs = require("fs");
 const path = require("path");
+
+// require following INTERNAL dependencies
 const utilityGenerateUUID = require("../utility/generateUUID");
 
 module.exports = {
@@ -55,7 +58,7 @@ module.exports = {
 };
 
 /*
-Til at forstå hvad vi angiver som argumenter til linje 47.
+Til at forstå hvad vi angiver som argumenter til linje 50.
 
 Når vi bruger JSON.stringify(), har vi mulighed for at angive tre argumenter:
 

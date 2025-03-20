@@ -1,3 +1,4 @@
+// require following EXTERNAL dependencies
 const path = require('path');
 const sqlite3 = require("better-sqlite3");
 
@@ -7,7 +8,7 @@ const connect = async function () {
 		const db = await new sqlite3(path.resolve('db/sampleAPI.db'), {fileMustExist: true});
 		return db;
 	} catch (err) {
-			console.error(err);
+		console.error(err);
 	}
 };
 

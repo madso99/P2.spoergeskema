@@ -1,0 +1,100 @@
+extends layout
+
+block content
+  h1= title
+  p= description
+
+  img(src=image alt="Test-side design" class="test-billede")
+
+  #survey.hidden
+    h2 Spørgeskema
+    form(action="/survey/submit-response" method="POST")
+      label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
+      input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
+      br
+      br
+
+      label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
+      input(type="number" id="opsætning" name="opsætning" min="1" max="6")
+      br
+      br
+
+      label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
+      input(type="number" id="farver" name="farver" min="1" max="6")
+      br
+      br
+
+      button(type="submit") Indsend svar
+
+//- extends layout
+
+//- block content
+//-   if title
+//-     h1= title
+//-   else
+//-     h1 "Ukendt design"
+
+//-   if description
+//-     p= description
+//-   else
+//-     p "Ingen beskrivelse tilgængelig."
+
+//-   if image
+//-     img(src=image alt="Test-side design" class="test-billede")
+//-   else
+//-     p "Billedet mangler."
+
+//-   button#toggleSurvey Vis spørgeskema
+
+//-   #survey.hidden
+//-     h2 Spørgeskema
+//-     form
+//-       label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
+//-       input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
+//-       br
+//-       br
+
+//-       label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
+//-       input(type="number" id="opsætning" name="opsætning" min="1" max="6")
+//-       br
+//-       br
+
+//-       label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
+//-       input(type="number" id="farver" name="farver" min="1" max="6")
+//-       br
+//-       br
+
+//-       button(type="submit") Indsend svar
+
+
+//- extends layout
+
+//- block content
+//-   h1 Hjemmeside Design
+//-   p Her ser du et eksempel på et hjemmeside-design, som du skal evaluere.
+
+//-   img(src="/images/testside.png" alt="Test-side design" class="test-billede")
+
+//-   button#toggleSurvey Vis spørgeskema
+
+//-   #survey.hidden
+//-     h2 Spørgeskema
+//-     form
+//-       label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
+//-       input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
+//-       br
+//-       br
+
+//-       label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
+//-       input(type="number" id="opsætning" name="opsætning" min="1" max="6")
+//-       br
+//-       br
+
+//-       label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
+//-       input(type="number" id="farver" name="farver" min="1" max="6")
+//-       br
+//-       br
+
+//-       button(type="submit") Indsend svar
+
+//-   script(defer src="/scripts/script.js")

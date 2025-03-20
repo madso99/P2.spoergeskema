@@ -1,8 +1,12 @@
 doctype html
-html
+html(lang="da")
   head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(defer src="/js/admin.js")
+    script(defer src="/scripts/script.js")
   body
-    block content
+    main 
+      block content
