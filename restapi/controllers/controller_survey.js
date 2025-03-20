@@ -1,5 +1,5 @@
 // require following EXTERNAL dependencies
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 
 // require following INTERNAL dependencies
@@ -19,6 +19,7 @@ module.exports = {
   },
 
   // Middleware til at gemme besvarelser fra spørgeskema i mappen /data/json
+  // Middleware til at gemme besvarelser fra spørgeskema i mappen /data/json
   saveUserResponse: async function (req, res, next) {
     try {
       if (!req.session.løbeId) {
@@ -30,11 +31,19 @@ module.exports = {
       const userFile = path.join(responsesDir, `${løbeId}.json`);
       let userData = { løbeId, responses: [] };
 
-      if (fs.existsSync(userFile)) {
-        try {
-          const fileContent = await fs.readFile(userFile, "utf8");
-          userData = JSON.parse(fileContent);
-        } catch (error) {
+      try {
+        // Brug fs.promises.access() til at tjekke om filen findes
+        await fs.access(userFile);
+        
+        // Hvis filen eksisterer, læs indholdet
+        const fileContent = await fs.readFile(userFile, "utf8");
+        userData = JSON.parse(fileContent);
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          // Filen findes ikke, fortsæt uden at gøre noget
+          console.log(`📂 Filen for session ${løbeId} findes ikke, opretter ny fil.`);
+        } else {
+          // Andre fejl, f.eks. fejl ved læsning af fil
           console.error(`❌ Fejl ved læsning af JSON-fil:`, error);
           return next(error);
         }
@@ -47,6 +56,7 @@ module.exports = {
 
       userData.responses.push(newResponse);
 
+      // Skriv de opdaterede data til filen
       await fs.writeFile(userFile, JSON.stringify(userData, null, 2));
       console.log(`💾 Respons gemt for session: ${løbeId}`);
       next();

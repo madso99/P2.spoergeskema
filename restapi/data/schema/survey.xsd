@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Rod element -->
+    <xs:element name="spørgeskema">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- En spørgeskemaundersøgelse har flere spørgemålsgrupper -->
+                <xs:element name="spørgsmålsgruppe" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id" type="xs:string"/> <!-- Gruppens ID (fx demografi, undersøgelse) -->
+                            <xs:element name="tilfældigRækkefølge" type="xs:boolean"/>
+                            <xs:element name="spørgsmål" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="id" type="xs:string"/>
+                                        <xs:element name="type" type="xs:string"/>
+                                        <xs:element name="niveauer" type="xs:integer" minOccurs="0"/>
+                                        <xs:element name="obligatorisk" type="xs:boolean" minOccurs="0"/>
+                                        <xs:element name="tekst" type="xs:string"/>
+                                        <xs:element name="min" type="xs:integer" minOccurs="0"/>
+                                        <xs:element name="option" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

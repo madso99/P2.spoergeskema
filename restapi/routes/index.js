@@ -32,5 +32,10 @@ router.get("/survey", (req, res) => {
   res.render("survey", { title: "Spørgeskema" });
 });
 */
+/* ✅ Gør `løbeId` tilgængeligt i alle views */
+router.use((req, res, next) => {
+  res.locals.løbeId = req.session.løbeId || "Ingen session ID fundet";
+  next();
+});
 
 module.exports = router;

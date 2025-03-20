@@ -9,17 +9,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Spørgeskema toggle-knap
   const toggleButton = document.getElementById("toggleSurvey");
-  const survey = document.getElementById("survey");
+  const surveyPanel = document.getElementById("surveyPanel");
+  const closeSurveyButton = document.getElementById("closeSurvey");
 
-  if (toggleButton && survey) {
+  if (toggleButton && surveyPanel) {
     toggleButton.addEventListener("click", function () {
-      if (survey.classList.contains("hidden")) {
-        survey.classList.remove("hidden");
-        toggleButton.textContent = "Skjul spørgeskema";
-      } else {
-        survey.classList.add("hidden");
+      if (surveyPanel.classList.contains("active")) {
+        surveyPanel.classList.remove("active");
         toggleButton.textContent = "Vis spørgeskema";
+      } else {
+        surveyPanel.classList.add("active");
+        toggleButton.textContent = "Luk spørgeskema";
       }
+    });
+  }
+
+  if (closeSurveyButton) {
+    closeSurveyButton.addEventListener("click", function () {
+      surveyPanel.classList.remove("active");
+      toggleButton.textContent = "Vis spørgeskema";
     });
   }
 });

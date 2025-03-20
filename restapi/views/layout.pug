@@ -8,5 +8,21 @@ html(lang="da")
     script(defer src="/js/admin.js")
     script(defer src="/scripts/script.js")
   body
-    main 
+    nav.navbar
+      a.logo(href="/") Hjemmesideundersøgelse
+      p Session ID: #{løbeId}
+
+      ul.menu
+        //-li: a(href="/") Forside (fjernet, da logoet nu fungerer som link)
+        //-li: a(href="/survey/design1") Start undersøgelsen
+        li: button#toggleSurvey Vis spørgeskema
+
+    // Slide-in spørgeskema panel
+    #surveyPanel.survey-panel
+      button#closeSurvey.close ✖
+      h2 Spørgeskema
+      form(action="/survey/submit-response" method="POST")
+        block survey-content
+
+    .container
       block content

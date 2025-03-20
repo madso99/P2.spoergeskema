@@ -1,33 +1,45 @@
+/* Reset styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Generel body styling */
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
+  background-color: #eef2f7;
+  color: #333;
+  line-height: 1.6;
 }
 
 /* Container */
 .container {
   text-align: center;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 50px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 80px auto;
 }
 
 /* Knap styling */
 button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  background: #007bff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
   border: none;
-  border-radius: 5px;
-  transition: background 0.3s ease;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #0056b3;
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: scale(1.05);
 }
 
 /* Navbar Styling */
@@ -35,27 +47,30 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #333;
-  padding: 10px 20px;
+  background: #222;
+  padding: 15px 40px;
   color: white;
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
-  height: 60px;
+  height: 70px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
 .navbar .logo {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 1px;
 }
 
 .navbar .menu {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
 }
 
 .navbar .menu li {
@@ -66,35 +81,62 @@ button:hover {
 .navbar .menu button {
   color: white;
   text-decoration: none;
-  background: none;
-  border: none;
   font-size: 16px;
   cursor: pointer;
-  padding: 10px;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
 }
 
+.navbar .menu a:hover,
 .navbar .menu button:hover {
-  text-decoration: underline;
-}
-
-/* Skjul spørgeskema fra start */
-.hidden {
-  display: none;
-}
-
-/* Styling af test-billede */
-.test-billede {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 20px auto;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 /* Sørg for at hele indholdet ikke gemmes bag navbar */
 main {
-  margin-top: 80px;
+  margin-top: 90px;
+  padding: 20px;
+}
+
+/* Billedstørrelse optimering */
+.test-billede {
+  max-width: 90%;
+  height: auto;
+  display: block;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Spørgeskema som slide-in panel */
+.survey-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 350px;
+  height: 100%;
+  background: white;
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  transition: right 0.3s ease-in-out;
+  z-index: 1100;
+  overflow-y: auto;
+}
+
+.survey-panel.active {
+  right: 0;
+}
+
+.survey-panel .close {
+  background: none;
+  color: #333;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 /* Gør siden responsiv */
@@ -102,16 +144,60 @@ main {
   .navbar {
     flex-direction: column;
     height: auto;
-    padding: 10px;
+    padding: 15px;
   }
 
   .navbar .menu {
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
   }
 
   .container {
-    width: 90%;
-    margin: 20px auto;
+    width: 95%;
+    margin: 30px auto;
+  }
+
+  .test-billede {
+    max-width: 100%;
+  }
+}
+/* Integreret spørgeskema i menuen */
+.survey-panel {
+  position: absolute;
+  top: 70px; /* Ligger lige under menuen */
+  right: 10px;
+  width: 350px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(-10px);
+  opacity: 0;
+  visibility: hidden;
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.survey-panel.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.survey-panel .close {
+  background: none;
+  color: #333;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  .survey-panel {
+    width: 100%;
+    right: 0;
   }
 }

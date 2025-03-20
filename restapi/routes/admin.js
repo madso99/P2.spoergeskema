@@ -4,7 +4,8 @@ const router = express.Router();
 
 // require following INTERNAL dependencies
 const ctrlAdmin = require('../controllers/controller_admin');
-const controllerFileHandler = require('../controllers/controller_filehandler');
+const ctrlFileHandler = require('../controllers/controller_filehandler');
+const ctrlSecurity = require('../controllers/controller_security'); 
 
 // HTTP POST request
 router.post('/register', ctrlAdmin.handleRegistration, (req, res, next) => {
@@ -22,7 +23,12 @@ router.post('/login', ctrlAdmin.handleLogin, (req, res, next) => {
 	res.redirect('/admin/dashboard');
 });
 
-router.post('/upload', controllerFileHandler.handleFileUpload);
+router.post(
+	"/upload",
+	ctrlFileHandler.checkXMLFile,
+	ctrlFileHandler.validateXMLMiddleware,
+	ctrlFileHandler.saveValidatedFile
+  );
 
 // HTTP GET request
 router.get('/register', (req, res, next) => {
@@ -42,7 +48,7 @@ router.get('/dashboard', (req, res, next) => {
 	if (!req.session.email) {
 		return res.redirect('/admin/login');
 	}
-
+	
 	res.render('admin_dashboard', {
 		title: req.session.email,
 		token: req.session.token,
@@ -50,7 +56,7 @@ router.get('/dashboard', (req, res, next) => {
 	});
 });
 
-router.get('/list-files', controllerFileHandler.listFiles);
-router.get('/download/:fileName', controllerFileHandler.downloadFile);
+router.get('/list-files', ctrlFileHandler.listFiles);
+router.get('/download/:fileName', ctrlFileHandler.downloadFile);
 
 module.exports = router;

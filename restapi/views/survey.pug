@@ -2,99 +2,121 @@ extends layout
 
 block content
   h1= title
-  p= description
-
   img(src=image alt="Test-side design" class="test-billede")
 
-  #survey.hidden
-    h2 Spørgeskema
-    form(action="/survey/submit-response" method="POST")
-      label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
-      input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
-      br
-      br
+block survey-content
+  h3 Demografi
 
-      label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
-      input(type="number" id="opsætning" name="opsætning" min="1" max="6")
-      br
-      br
+  div
+    label(for="alder") Hvad er din alder?
+    input(type="number" id="alder" name="alder" min="18" required)
 
-      label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
-      input(type="number" id="farver" name="farver" min="1" max="6")
-      br
-      br
+  div
+    label(for="køn") Hvad er dit køn?
+    select(id="køn" name="køn" required)
+      option(value="kvinde") Kvinde
+      option(value="mand") Mand
+      option(value="andet") Andet
 
-      button(type="submit") Indsend svar
+  div
+    label(for="uddannelse") Hvad er din højeste uddannelse?
+    select(id="uddannelse" name="uddannelse" required)
+      option(value="folkeskole") Folkeskole
+      option(value="erhvervsuddannelse") Erhvervsuddannelse
+      option(value="hf/hhx/htx/stx") HF/HHX/HTX/STX
+      option(value="erhvervsakademiuddannelse") Erhvervsakademiuddannelse
+      option(value="professionsbachelor") Professionsbachelor
+      option(value="bachelor") Bachelor
+      option(value="kandidat/master") Kandidat/Master
+      option(value="ph.d.") Ph.d.
 
-//- extends layout
+  div
+    label(for="beskæftigelse") Hvad er din nuværende eller seneste beskæftigelse?
+    input(type="text" id="beskæftigelse" name="beskæftigelse" required)
 
-//- block content
-//-   if title
-//-     h1= title
-//-   else
-//-     h1 "Ukendt design"
+  h3 Undersøgelse
 
-//-   if description
-//-     p= description
-//-   else
-//-     p "Ingen beskrivelse tilgængelig."
+  div
+    label(for="tiltalende") Hvor tiltalende finder du hjemmesiden? (1-6)
+    select(id="tiltalende" name="tiltalende" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   if image
-//-     img(src=image alt="Test-side design" class="test-billede")
-//-   else
-//-     p "Billedet mangler."
+  div
+    label(for="opsætning") Hvor tiltalende finder du sidens opsætning? (1-6)
+    select(id="opsætning" name="opsætning" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   button#toggleSurvey Vis spørgeskema
+  div
+    label(for="billeder") Hvor tiltalende finder du billederne på siden? (1-6)
+    select(id="billeder" name="billeder" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   #survey.hidden
-//-     h2 Spørgeskema
-//-     form
-//-       label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
-//-       input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
-//-       br
-//-       br
+  div
+    label(for="sprog") Hvor tiltalende finder du sproget på siden? (1-6)
+    select(id="sprog" name="sprog" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-       label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
-//-       input(type="number" id="opsætning" name="opsætning" min="1" max="6")
-//-       br
-//-       br
+  div
+    label(for="farver") Hvor tiltalende finder du farverne på siden? (1-6)
+    select(id="farver" name="farver" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-       label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
-//-       input(type="number" id="farver" name="farver" min="1" max="6")
-//-       br
-//-       br
+  div
+    label(for="benytte") Hvor sandsynligt er det, at du ville benytte virksomhedens produkter? (1-6)
+    select(id="benytte" name="benytte" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-       button(type="submit") Indsend svar
+  div
+    label(for="beskrivelse") Skriv op til 5 tillægsord, der beskriver hjemmesiden
+    input(type="text" id="beskrivelse" name="beskrivelse" required)
 
+  div
+    label(for="stavning") Teksten på siden er stavet korrekt (1-6)
+    select(id="stavning" name="stavning" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//- extends layout
+  div
+    label(for="velformuleret") Teksten på siden er velformuleret (1-6)
+    select(id="velformuleret" name="velformuleret" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//- block content
-//-   h1 Hjemmeside Design
-//-   p Her ser du et eksempel på et hjemmeside-design, som du skal evaluere.
+  div
+    label(for="letlæselig") Teksten på siden er letlæselig (1-6)
+    select(id="letlæselig" name="letlæselig" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   img(src="/images/testside.png" alt="Test-side design" class="test-billede")
+  div
+    label(for="letforståelig") Det er let at forstå teksten på siden (1-6)
+    select(id="letforståelig" name="letforståelig" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   button#toggleSurvey Vis spørgeskema
+  div
+    label(for="kringlet") Teksten på siden er skrevet på en kringlet måde (1-6)
+    select(id="kringlet" name="kringlet" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-   #survey.hidden
-//-     h2 Spørgeskema
-//-     form
-//-       label(for="tiltalende") Hvor tiltalende er hjemmesiden? (1-6)
-//-       input(type="number" id="tiltalende" name="tiltalende" min="1" max="6")
-//-       br
-//-       br
+  div
+    label(for="tillid") Virksomheden er tillidsvækkende (1-6)
+    select(id="tillid" name="tillid" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-       label(for="opsætning") Hvor tiltalende er sidens opsætning? (1-6)
-//-       input(type="number" id="opsætning" name="opsætning" min="1" max="6")
-//-       br
-//-       br
+  div
+    label(for="populær") De fleste kan godt lide denne hjemmeside (1-6)
+    select(id="populær" name="populær" required)
+      - for (let i = 1; i <= 6; i++)
+        option(value=i) #{i}
 
-//-       label(for="farver") Hvor tiltalende er farverne på siden? (1-6)
-//-       input(type="number" id="farver" name="farver" min="1" max="6")
-//-       br
-//-       br
+  button(type="submit") Indsend svar
 
-//-       button(type="submit") Indsend svar
-
-//-   script(defer src="/scripts/script.js")

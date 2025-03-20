@@ -31,8 +31,9 @@ module.exports = {
   generateToken: async function(req, res, next) {
     try {
       const payload = { email: res.locals.user.email, profile: res.locals.user.profile };
-      res.locals.token = await jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+      res.locals.token = await jwt.sign(payload, process.env.SECRET, { expiresIn: '10m' });
       console.log('✅ generateToken middleware blev udført!');
+      console.log('🔑 Genereret token:', res.locals.token);
       //next();
     } catch (err) {
       return res.status(500).json({ message: 'Error generating token' });
@@ -47,6 +48,15 @@ module.exports = {
 
       let decoded = await jwt.verify(token, process.env.SECRET);
       if (!decoded) throw new Error('Failed to authenticate token');
+
+      const now = Math.floor(Date.now() / 1000);
+      const remainingTime = decoded.exp - now;
+
+      if (remainingTime <= 0) {
+        throw new Error('Token is expired');
+      }
+
+      console.log(`🔒 Token er gyldigt. Der er ${remainingTime} sekunder tilbage før udløb.`);
 
       res.locals.authorized = true;
       res.locals.profile = decoded.profile;
