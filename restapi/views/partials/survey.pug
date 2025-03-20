@@ -1,0 +1,77 @@
+h1 Spørgeskema
+p Udfyld venligst spørgeskemaet
+div#questions-container
+
+script.
+  // Function to fetch XML data
+  const loadXML = async function() {
+    try {
+      const response = await fetch('/data/xml/questions.xml'); // Juster stien
+      const xmlText = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+      displayQuestions(xmlDoc);
+    } catch (error) {
+      console.error('Der opstod en fejl ved hentning af XML:', error);
+    }
+  };
+
+  const displayQuestions = function(xmlDoc) {
+    const questionGroups = xmlDoc.getElementsByTagName('spørgsmålsgruppe');
+    const container = document.getElementById('questions-container');
+
+    Array.from(questionGroups).forEach(group => {
+      const groupTitle = group.querySelector('id').textContent;
+      const groupContainer = document.createElement('div');
+      groupContainer.classList.add('question-group');
+      
+      const groupHeading = document.createElement('h2');
+      groupHeading.textContent = groupTitle;
+      groupContainer.appendChild(groupHeading);
+
+      const questions = group.getElementsByTagName('spørgsmål');
+      
+      Array.from(questions).forEach(question => {
+        const questionType = question.querySelector('type').textContent;
+        const questionText = question.querySelector('tekst').textContent;
+        
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question');
+        
+        const questionLabel = document.createElement('label');
+        questionLabel.textContent = questionText;
+        questionDiv.appendChild(questionLabel);
+
+        if (questionType === 'dropdown') {
+          const select = document.createElement('select');
+          const options = question.getElementsByTagName('option');
+          
+          Array.from(options).forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = option.textContent;
+            select.appendChild(optionElement);
+          });
+          questionDiv.appendChild(select);
+        } else if (questionType === 'integer' || questionType === 'tekst') {
+          const input = document.createElement('input');
+          input.type = questionType === 'integer' ? 'number' : 'text';
+          questionDiv.appendChild(input);
+        } else if (questionType === 'skala' || questionType === 'Likert') {
+          const scale = document.createElement('input');
+          scale.type = 'range';
+          scale.min = 1;
+          scale.max = 6;
+          questionDiv.appendChild(scale);
+        }
+
+        groupContainer.appendChild(questionDiv);
+      });
+
+      container.appendChild(groupContainer);
+    });
+  };
+
+  window.onload = loadXML;
+
+button(type="submit") Indsend svar

@@ -1,5 +1,5 @@
 // require following EXTERNAL dependencies
-const fs = require("fs").promises;
+const fs = require("fs");
 const path = require("path");
 
 // require following INTERNAL dependencies
@@ -19,9 +19,9 @@ module.exports = {
   },
 
   // Middleware til at gemme besvarelser fra spørgeskema i mappen /data/json
-  // Middleware til at gemme besvarelser fra spørgeskema i mappen /data/json
-  saveUserResponse: async function (req, res, next) {
+  saveUserResponse: async (req, res, next) => {
     try {
+      console.log("🔍 Modtaget request-body:", req.body);
       if (!req.session.løbeId) {
         return res.status(400).json({ success: false, message: "Session ID mangler." });
       }
@@ -31,34 +31,28 @@ module.exports = {
       const userFile = path.join(responsesDir, `${løbeId}.json`);
       let userData = { løbeId, responses: [] };
 
-      try {
-        // Brug fs.promises.access() til at tjekke om filen findes
-        await fs.access(userFile);
-        
-        // Hvis filen eksisterer, læs indholdet
-        const fileContent = await fs.readFile(userFile, "utf8");
-        userData = JSON.parse(fileContent);
-      } catch (error) {
-        if (error.code === 'ENOENT') {
-          // Filen findes ikke, fortsæt uden at gøre noget
-          console.log(`📂 Filen for session ${løbeId} findes ikke, opretter ny fil.`);
-        } else {
-          // Andre fejl, f.eks. fejl ved læsning af fil
+      if (fs.existsSync(userFile)) {
+        try {
+          const fileContent = await fs.readFile(userFile, "utf8");
+          userData = JSON.parse(fileContent);
+        } catch (error) {
           console.error(`❌ Fejl ved læsning af JSON-fil:`, error);
           return next(error);
         }
       }
-
+      
       const newResponse = req.body;
+      /*
       if (!newResponse || Object.keys(newResponse).length === 0) {
         return res.status(400).json({ success: false, message: "Ugyldig responsdata." });
       }
-
+      */
       userData.responses.push(newResponse);
 
-      // Skriv de opdaterede data til filen
       await fs.writeFile(userFile, JSON.stringify(userData, null, 2));
       console.log(`💾 Respons gemt for session: ${løbeId}`);
+      console.log(`✅ Besvarelse gemt: ${filsti}`);
+      res.status(200).json({ success: true, message: "Besvarelse gemt!" });
       next();
     } catch (error) {
       console.error(`❌ Fejl ved skrivning af JSON-fil:`, error);

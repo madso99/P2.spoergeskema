@@ -24,6 +24,7 @@ const surveyRouter = require("./routes/survey");
 // use following dependencies, in your application
 app.use(cookieParser());
 app.use(cors());
+//app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -41,6 +42,7 @@ app.use(
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
 app.use("/survey", surveyRouter);
+app.use('/data/xml', express.static('data/xml')); // ☢️ Denne kode sikrer, at din XML-fil kan tilgås via /data/xml/questions.xml på serveren.
 
 // use this as a global Middleware to catch 404 and forward to next middleware, in your application
 app.use( (req, res, next) => {

@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
   // Start-knappen sender brugeren til første testside
   const startButton = document.getElementById("start");
@@ -6,28 +7,36 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "/survey/design1";
     });
   }
+});
 
-  // Spørgeskema toggle-knap
-  const toggleButton = document.getElementById("toggleSurvey");
+////////////
+document.addEventListener("DOMContentLoaded", function () {
   const surveyPanel = document.getElementById("surveyPanel");
-  const closeSurveyButton = document.getElementById("closeSurvey");
+  const toggleButton = document.getElementById("toggleSurvey");
 
+  // Sikre at knappen starter med den korrekte tekst
   if (toggleButton && surveyPanel) {
-    toggleButton.addEventListener("click", function () {
-      if (surveyPanel.classList.contains("active")) {
-        surveyPanel.classList.remove("active");
-        toggleButton.textContent = "Vis spørgeskema";
-      } else {
-        surveyPanel.classList.add("active");
-        toggleButton.textContent = "Luk spørgeskema";
-      }
-    });
+    toggleButton.textContent = surveyPanel.classList.contains("active") 
+      ? "Luk spørgeskema" 
+      : "Vis spørgeskema";
   }
 
-  if (closeSurveyButton) {
-    closeSurveyButton.addEventListener("click", function () {
+  // Event delegation til at toggle spørgeskema
+  document.addEventListener("click", function (event) {
+    const clickedToggle = event.target.closest("#toggleSurvey");
+    const clickedClose = event.target.closest("#closeSurvey");
+
+    if (clickedToggle && surveyPanel) {
+      surveyPanel.classList.toggle("active");
+      toggleButton.textContent = surveyPanel.classList.contains("active") 
+        ? "Luk spørgeskema" 
+        : "Vis spørgeskema";
+    }
+
+    if (clickedClose && surveyPanel) {
       surveyPanel.classList.remove("active");
       toggleButton.textContent = "Vis spørgeskema";
-    });
-  }
+    }
+  });
 });
+

@@ -2,12 +2,12 @@ module.exports = {
   surveyContent: {
       design1: {
         title: "Test Design 1",
-        image: "/images/testside.png",
+        image: "/images/design1.png",
         description: "Dette er design 1. Vurder dette layout.",
       },
       design2: {
         title: "Test Design 2",
-        image: "/images/design2.png",
+        image: "/images/design2.jpg",
         description: "Dette er design 2. Hvordan synes du om dette design?",
       },
       design3: {

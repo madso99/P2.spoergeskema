@@ -16,7 +16,7 @@ router.get("/:design", (req, res) => {
   const designKey = req.params.design;
 
   if (surveyPages.surveyContent[designKey]) {
-    res.render("survey", {
+    res.render("frontpage_design.pug", {
       title: surveyPages.surveyContent[designKey].title,
       image: surveyPages.surveyContent[designKey].image,
       description: surveyPages.surveyContent[designKey].description,

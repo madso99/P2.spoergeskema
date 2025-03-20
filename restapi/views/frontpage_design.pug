@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+  h1= title
+
+  button#toggleSurvey Vis spørgeskema
+
+  #surveyPanel.survey-panel
+    button#closeSurvey.close ✖
+    form(action="/survey/submit-response" method="POST")
+      .survey-content
+        include ./partials/survey.pug
+
+  img(src=image alt="Test-side design" class="test-billede")
+
